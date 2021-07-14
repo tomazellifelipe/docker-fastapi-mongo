@@ -1,0 +1,30 @@
+services:
+  mongodb:
+    container_name: mongodb
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: pass
+    image: mongo
+  mongo-express:
+    container_name: mongo-express
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: pass
+      ME_CONFIG_MONGODB_SERVER: mongodb
+    depends_on:
+      - mongodb
+    image: mongo-express
+    volumes: 
+      - ./docker-entrypoint.sh:/docker-entrypoint.sh
+  myapp:
+    container_name: myapp
+    ports:
+      - 8000:8000
+    depends_on:
+      - mongodb
+      - mongo-express
+    image: fastapi-mongo:1.0
