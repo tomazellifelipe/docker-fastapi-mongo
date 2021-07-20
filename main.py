@@ -1,8 +1,13 @@
+import os
 from fastapi import FastAPI
 from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
 from pymongo import MongoClient
 from typing import Optional
+
+FAPI_MONGODB_ADMINUSER = os.environ.get('FAPI_MONGODB_ADMINUSER', 'admin')
+FAPI_MONGODB_ADMINPASSWORD = os.environ.get('FAPI_MONGODB_ADMINPASSWORD', 'pass')
+FAPI_MONGODB_SERVER = os.environ.get('FAPI_MONGODB_SERVER', 'mongo')
 
 
 class Item(BaseModel):
@@ -11,7 +16,7 @@ class Item(BaseModel):
     brand: Optional[str] = None
 
 mongoUrlLocal = 'mongodb://admin:pass@localhost:27017'
-mongoUrlDocker = 'mongodb://admin:pass@mongodb:27017' 
+mongoUrlDocker = f'mongodb://{FAPI_MONGODB_ADMINUSER}:{FAPI_MONGODB_ADMINPASSWORD}@{FAPI_MONGODB_SERVER}:27017' 
 mongoDb = 'my-db'
 mongoCt = 'my-collection'
 

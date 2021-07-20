@@ -24,6 +24,10 @@ services:
     container_name: myapp
     ports:
       - 8000:8000
+    environment:
+      FAPI_MONGODB_ADMINUSERNAME: admin
+      FAPI_MONGODB_ADMINPASSWORD: pass
+      FAPI_MONGODB_SERVER: mongodb
     depends_on:
       - mongodb
       - mongo-express
